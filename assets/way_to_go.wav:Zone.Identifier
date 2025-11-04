@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=http://127.0.0.1:7860/?__theme=light
+HostUrl=http://127.0.0.1:7860/gradio_api/file=C:/pinokio/api/openaudio.git/cache/GRADIO_TEMP_DIR/a7cdcd6d93ea5ae549ac58b8a9f00c22928d5cc12bb444bb01cff933b836e51d/audio.wav

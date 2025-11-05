@@ -1,7 +1,3 @@
-Here’s a **compact but practical mini‑guide** to get you rolling with **Gosu game development in Ruby** 🚀. I’ll keep it modular and hands‑on so you can riff on it quickly.
-
----
-
 # 🎮 Mini Guide: Gosu Game Dev in Ruby
 
 ## 1. Setup

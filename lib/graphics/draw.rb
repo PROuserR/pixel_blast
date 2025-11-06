@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Draws a pixel-perfect grid inside a block
-module Graphics
+module Draw
   module_function
 
   # x, y: top-left in pixels
@@ -9,7 +9,7 @@ module Graphics
   # cell_size: size of each cell in pixels
   # color: Gosu::Color for the lines
   # z: draw order
-  def draw_pixel_grid(x_coordinate, y_coordinate, width, height)
+  def pixel_grid(x_coordinate, y_coordinate, width, height)
     cell_size = 25
     color = Gosu::Color::WHITE
     z = 0
@@ -29,7 +29,7 @@ module Graphics
     end
   end
 
-  def draw_thick_line(x1, y1, x2, y2, thickness, color, z = 0)
+  def thick_line(x1, y1, x2, y2, thickness, color, z = 0)
     dx = x2 - x1
     dy = y2 - y1
     length = Math.sqrt(dx**2 + dy**2)
@@ -52,7 +52,7 @@ module Graphics
     )
   end
 
-  def draw_rect(x_coordinate, y_coordinate, width, height, color)
+  def rect(x_coordinate, y_coordinate, width, height, color)
     Gosu.draw_quad(
       x_coordinate,         y_coordinate,          color,  # Top-left
       x_coordinate + width, y_coordinate,          color,  # Top-right
@@ -67,7 +67,7 @@ module Graphics
   #   :inside  -> border lies fully inside the (x,y,w,h) box
   #   :center  -> border is centered on the box edges
   #   :outside -> border lies fully outside the box
-  def draw_rect_border(x, y, w, h, thickness, color, z = 1, align: :inside)
+  def rect_border(x, y, w, h, thickness, color, z = 1, align: :inside)
     return if thickness <= 0 || w <= 0 || h <= 0
 
     case align
@@ -145,20 +145,20 @@ module Graphics
     end
   end
 
-  def draw_block(x_coordinate, y_coordinate, width, height, color, solving_block = false)
+  def block(x_coordinate, y_coordinate, width, height, color, solving_block = false)
     screen_margin = 200
     if solving_block
-      draw_rect(x_coordinate + 5, y_coordinate + 5, width - 10, height - 10, color)
-      draw_rect_border(x_coordinate, y_coordinate, 400 / 16, 400 / 16, 2, color)
+      rect(x_coordinate + 5, y_coordinate + 5, width - 10, height - 10, color)
+      rect_border(x_coordinate, y_coordinate, 400 / 16, 400 / 16, 2, color)
     else
-      draw_rect(x_coordinate + 5, y_coordinate + screen_margin + 5, width - 10, height - 10, color)
-      draw_rect_border(x_coordinate, y_coordinate + screen_margin, 400 / 16, 400 / 16, 2, color)
+      rect(x_coordinate + 5, y_coordinate + screen_margin + 5, width - 10, height - 10, color)
+      rect_border(x_coordinate, y_coordinate + screen_margin, 400 / 16, 400 / 16, 2, color)
     end
   end
 
   # Draws a portion of an image between dest coords (x1, y1) and (x2, y2)
   # Uses the upper half of the source image by default
-  def draw_image_region(image, src_x1, src_y1, src_width, src_height, dest_x1, dest_y1, dest_width, dest_height)
+  def image_region(image, src_x1, src_y1, src_width, src_height, dest_x1, dest_y1, dest_width, dest_height)
     tint_color = Gosu::Color::WHITE
     alpha = 255
     z = 0
@@ -177,5 +177,99 @@ module Graphics
       dest_x1, dest_y1 + dest_height, tint_color, # BL
       z, mode
     )
+  end
+
+  def self.matrix_2d(matrix_2d, color, image)
+    matrix_2d.size.times do |row|
+      row_full_of_minus_ones = matrix_2d[row].count(-1) == matrix_2d[row].size
+      if row_full_of_minus_ones
+        Draw.image_region(image,
+                          0, row * (image.height / matrix_2d[0].size), image.width, image.height / matrix_2d[0].size,
+                          0, (400 / matrix_2d[0].size * row) + 200, 400, 400 / matrix_2d.size)
+      end
+      matrix_2d[row].size.times do |col|
+        col_full_of_minus_ones = matrix_2d.all? { |row| row[col] == -1 }
+        if col_full_of_minus_ones
+          Draw.image_region(image,
+                            col * (image.width / matrix_2d.size), 0, image.width / matrix_2d.size, image.height,
+                            col * (400 / matrix_2d.size), 200, 400 / matrix_2d[0].size, 400)
+        end
+
+        pos_value = matrix_2d[row][col]
+        next unless pos_value == 1
+
+        Draw.block(col * (400 / matrix_2d[0].size), row * (400 / matrix_2d.size), 400 / matrix_2d[0].size,
+                   400 / matrix_2d.size, color)
+      end
+    end
+  end
+
+  def self.next_block_set(block_id, x_coordinate = 275, y_coordinate = 120, matrix_2d, color)
+    case block_id
+    when 0
+      # -> ##
+      # -> ##
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
+    when 1
+      # -> ##
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+    when 2
+      # -> #
+      # -> #
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size, 400 / matrix_2d.size, color, true)
+    when 3
+      # -> ##
+      # -> #
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size, 400 / matrix_2d.size, color, true)
+    when 4
+      # -> ##
+      # ->  #
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size, 400 / matrix_2d.size, color, true)
+    when 5
+      # -> #
+      # -> ##
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
+    when 6
+      # ->  #
+      # -> ##
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
+                 400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
+    when 7
+      # -> #
+      Draw.block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
+                 400 / matrix_2d.size, color, true)
+    end
   end
 end

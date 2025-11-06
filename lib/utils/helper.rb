@@ -149,7 +149,7 @@ class PixelblastHelper
     loader.click.play
   end
 
-  def self.try_draw_block(random_block_id, timer, loader)
+  def self.try_block(random_block_id, timer, loader)
     return unless PixelblastHelper.solving_block_drawn
 
     PixelblastHelper.end_game_if_block_does_not_fit_in(random_block_id)
@@ -248,31 +248,6 @@ class PixelblastHelper
     end
   end
 
-  def self.draw_matrix_2d(color, image)
-    matrix_2d.size.times do |row|
-      row_full_of_minus_ones = @@matrix_2d[row].count(-1) == @@matrix_2d[row].size
-      if row_full_of_minus_ones
-        Graphics.draw_image_region(image,
-                                   0, row * (image.height / @@matrix_2d[0].size), image.width, image.height / @@matrix_2d[0].size,
-                                   0, (400 / @@matrix_2d[0].size * row) + 200, 400, 400 / @@matrix_2d.size)
-      end
-      matrix_2d[row].size.times do |col|
-        col_full_of_minus_ones = @@matrix_2d.all? { |row| row[col] == -1 }
-        if col_full_of_minus_ones
-          Graphics.draw_image_region(image,
-                                     col * (image.width / matrix_2d.size), 0, image.width / matrix_2d.size, image.height,
-                                     col * (400 / matrix_2d.size), 200, 400 / matrix_2d[0].size, 400)
-        end
-
-        pos_value = @@matrix_2d[row][col]
-        next unless pos_value == 1
-
-        Graphics.draw_block(col * (400 / matrix_2d[0].size), row * (400 / matrix_2d.size), 400 / matrix_2d[0].size,
-                            400 / matrix_2d.size, color)
-      end
-    end
-  end
-
   def self.check_if_block_fits_in(block_id)
     case block_id
     when 0
@@ -325,75 +300,6 @@ class PixelblastHelper
     @@loader.game_over.play
     sleep(2)
     exit
-  end
-
-  def self.draw_next_block_set(block_id, x_coordinate = 275, y_coordinate = 120, color)
-    case block_id
-    when 0
-      # -> ##
-      # -> ##
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
-    when 1
-      # -> ##
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-    when 2
-      # -> #
-      # -> #
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size, 400 / matrix_2d.size, color, true)
-    when 3
-      # -> ##
-      # -> #
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size, 400 / matrix_2d.size, color, true)
-    when 4
-      # -> ##
-      # ->  #
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size, 400 / matrix_2d.size, color, true)
-    when 5
-      # -> #
-      # -> ##
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
-    when 6
-      # ->  #
-      # -> ##
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate, y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
-      Graphics.draw_block(x_coordinate + (400 / matrix_2d[0].size), y_coordinate + (400 / matrix_2d.size),
-                          400 / matrix_2d[0].size,  400 / matrix_2d.size, color, true)
-    when 7
-      # -> #
-      Graphics.draw_block(x_coordinate, y_coordinate, 400 / matrix_2d[0].size,
-                          400 / matrix_2d.size, color, true)
-    end
   end
 
   def self.block_fits_in(sub_2dmatrix)

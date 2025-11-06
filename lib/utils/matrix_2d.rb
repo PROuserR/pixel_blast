@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Matrix provides helper methods for performing common operations.
-# These Extras are useful for grid-based algorithms or matrix manipulations.
+# These RandomGenerator are useful for grid-based algorithms or matrix manipulations.
 module Matrix2D
   module_function
 

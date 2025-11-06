@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Useful functions to consume
-module Extras
+module RandomGenerator
   module_function
 
   ASSETS_DIR = File.join(__dir__, '..', '..', '/assets')
@@ -10,12 +10,11 @@ module Extras
     File.join(ASSETS_DIR, name)
   end
 
+  # Define the path to the target folder (outside current directory)
   def random_file_from_subfolders
-    # Define the path to the target folder (outside current directory)
     content = File.read('./config.txt')
 
-    target_folder = ''
-    if content
+    if !content.empty?
       target_folder = content # or use an absolute path like "/home/user/images"
       Dir.glob(File.join(target_folder, '*')).sample
     else

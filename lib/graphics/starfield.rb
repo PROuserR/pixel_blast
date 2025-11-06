@@ -21,10 +21,8 @@ class Starfield
     # Flicker stars
     @stars.each do |star|
       star.flicker_phase += @flicker_speed
-      # Random chance to spawn a blast from this star
-      if rand < @blast_chance
-        spawn_blast_from(star)
-      end
+      # random chance to spawn a blast from this star
+      spawn_blast_from(star) if rand < @blast_chance
     end
 
     # Update blasts
@@ -81,7 +79,7 @@ class Starfield
       star.x, star.y,
       Math.cos(angle) * speed,
       Math.sin(angle) * speed,
-      30 + rand(20), # life in frames
+      rand(30..49), # life in frames
       star.color.dup,
       []
     )

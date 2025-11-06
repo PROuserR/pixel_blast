@@ -23,20 +23,18 @@ class PixelblastWindow < Gosu::Window
     @start_game = 0
     @alpha = 0
     @block_color = RandomGenerator.random_vivid_color
-    @custom_folder = ''
     @loader.intro.play(loop = true)
     @btn_play = Button.new(
-      x: 50, y: 500, width: 300, height: 50,
+      x: @win_width / 2 - 150, y: @win_height - 50, width: 300, height: 50,
       label: 'Click anywhere to start!',
       font: @loader.font_subtitle,
       bg_color: Gosu::Color::BLACK,
       hover_color: RandomGenerator.random_vivid_color,
       text_color: Gosu::Color::WHITE
     )
-    @starfield = Starfield.new(num_stars: 256, width: 400, height: 600)
+    @starfield = Starfield.new(num_stars: 256, width: @win_width, height: @win_height)
     # Create code streams across the screen
-    @stream = CodeStream.new(x: 0, y: 200, width: 400, height: 400)
-    # @glitch = GlitchScanlines.new(x: 0, y: 200, width: 400, height: 400)
+    @stream = CodeStream.new(x: 0, y: 200, width: @win_width, height: @win_height - 200)
   end
 
   def button_down(id)
@@ -72,6 +70,7 @@ class PixelblastWindow < Gosu::Window
 
     if id == Gosu::MsLeft && @start_game.zero?
       @start_game = 1
+
       return
     end
 
@@ -94,13 +93,13 @@ class PixelblastWindow < Gosu::Window
   end
 
   def draw_logo
-    @loader.font_title.draw_text('P', 70 + 5, 20, 0, 2, 2, Gosu::Color.new(@alpha, 255, 0, 0))
-    @loader.font_title.draw_text('i', 70 + 50, 20, 0, 2, 2, Gosu::Color.new(@alpha, 255, 255, 0))
-    @loader.font_title.draw_text('x', 70 + 75, 20, 0, 2, 2, Gosu::Color.new(@alpha, 255, 0, 255))
-    @loader.font_title.draw_text('e', 70 + 120, 20, 0, 2, 2, Gosu::Color.new(@alpha, 0, 255, 0))
-    @loader.font_title.draw_text('l', 70 + 160, 20, 0, 2, 2, Gosu::Color.new(@alpha, 0, 0, 255))
+    @loader.font_title.draw_text('P', @win_width / 2 - 77 + 5, 20, 0, 2, 2, Gosu::Color.new(@alpha, 255, 0, 0))
+    @loader.font_title.draw_text('i', @win_width / 2 - 77  + 50, 20, 0, 2, 2, Gosu::Color.new(@alpha, 255, 255, 0))
+    @loader.font_title.draw_text('x', @win_width / 2 - 77  + 75, 20, 0, 2, 2, Gosu::Color.new(@alpha, 255, 0, 255))
+    @loader.font_title.draw_text('e', @win_width / 2 - 77  + 120, 20, 0, 2, 2, Gosu::Color.new(@alpha, 0, 255, 0))
+    @loader.font_title.draw_text('l', @win_width / 2 - 77  + 160, 20, 0, 2, 2, Gosu::Color.new(@alpha, 0, 0, 255))
 
-    @loader.font_title.draw_text('blast', 150, 77, 0, 2, 2, Gosu::Color::WHITE)
+    @loader.font_title.draw_text('blast', @win_width / 2 - 77, 77, 0, 2, 2, Gosu::Color::WHITE)
   end
 
   # Main game loop
@@ -112,23 +111,24 @@ class PixelblastWindow < Gosu::Window
       @starfield.draw
 
     else
-      @loader.font.draw_text('Statistics', 120, 35 - 20, 0, 2, 2, 0xff_ffffff)
-      @loader.font.draw_text("Score:#{PixelblastHelper.score}", 5, 70 - 20, 0, 2, 2, 0xff_ffffff)
-      @loader.font.draw_text('Top Score:10000', 170, 70 - 20, 0, 2, 2, 0xff_ffffff)
-      @loader.font.draw_text("Time left:#{@timer.remaining.round(0)}", 170, 105 - 20, 0, 2, 2, 0xff_ffffff)
-      @loader.font.draw_text("Blasts:#{PixelblastHelper.blasts}", 5, 105 - 20, 0, 2, 2, 0xff_ffffff)
-      @loader.font.draw_text("Level:#{PixelblastHelper.level}", 5, 140 - 20, 0, 2, 2, 0xff_ffffff)
-      @loader.font.draw_text('next:', 170, 140 - 20, 0, 2, 2, 0xff_ffffff)
+      @loader.font.draw_text('Statistics', @win_width / 2 - 75, 35 - 20, 0, 2, 2, 0xff_ffffff)
+      @loader.font.draw_text("Score:#{PixelblastHelper.score}", @win_width / 2 - 190, 70 - 20, 0, 2, 2, 0xff_ffffff)
+      @loader.font.draw_text('Top Score:10000', @win_width / 2 - 50, 70 - 20, 0, 2, 2, 0xff_ffffff)
+      @loader.font.draw_text("Blasts:#{PixelblastHelper.blasts}", @win_width / 2 - 190, 105 - 20, 0, 2, 2, 0xff_ffffff)
+      @loader.font.draw_text("Time left:#{@timer.remaining.round(0)}", @win_width / 2 - 50, 105 - 20, 0, 2, 2,
+                             0xff_ffffff)
+      @loader.font.draw_text("Level:#{PixelblastHelper.level}", @win_width / 2 - 190, 140 - 20, 0, 2, 2, 0xff_ffffff)
+      @loader.font.draw_text('next:', @win_width / 2 - 50, 140 - 20, 0, 2, 2, 0xff_ffffff)
 
       @stream.draw
 
       Draw.pixel_grid(
         0, 200, # x, y position
-        400, 400 # total width & height in pixels
+        @win_width, @win_height - 200 # total width & height in pixels
       )
 
-      Draw.matrix_2d(PixelblastHelper.matrix_2d, @block_color, @loader.background)
-      Draw.next_block_set(@random_block_id, PixelblastHelper.matrix_2d, @block_color)
+      Draw.matrix_2d(PixelblastHelper.matrix_2d, @block_color, @loader.background, @win_width, @win_height - 200)
+      Draw.next_block_set(@random_block_id, @win_width, @win_height - 200, PixelblastHelper.matrix_2d, @block_color)
 
       unless PixelblastHelper.try_block(@random_block_id, @timer, @loader).nil?
         @random_block_id = RandomGenerator.generate_unique_random(random_block_id, 8)
@@ -143,7 +143,7 @@ class PixelblastWindow < Gosu::Window
       @loader.background = Gosu::Image.new(RandomGenerator.random_file_from_subfolders)
       PixelblastHelper.blasts += 3
       PixelblastHelper.level += 1
-      @block_color = RandomGenerator.randomvivid_color
+      @block_color = RandomGenerator.random_vivid_color
 
       return unless PixelblastHelper.refersh_score_flag
 

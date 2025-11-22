@@ -7,7 +7,6 @@ require_relative  '../media/media_loader'
 require_relative  '../graphics/draw'
 require_relative  '../graphics/starfield'
 require_relative  '../graphics/code_rain'
-require_relative  '../graphics/glitch_scan_lines'
 
 # Class GameWindow inherits from Gosu::Window to run the window && draw method
 class PixelblastWindow < Gosu::Window
@@ -18,7 +17,7 @@ class PixelblastWindow < Gosu::Window
     @win_width = width
     @win_height = height
     @last_time = Gosu.milliseconds / 1000.0
-    @timer = Timer.new(60) { puts 'Timer finished!' }
+    @timer = Timer.new(60) {}
     @loader = MediaLoader.new
     @start_game = 0
     @alpha = 0
@@ -81,10 +80,12 @@ class PixelblastWindow < Gosu::Window
   def button_up(id)
     @timer.start if @start_game == 1
     if @start_game >= 2 && id == Gosu::MsLeft
-      PixelblastHelper.new_matrix_2d_index[0] = (Integer(mouse_x) / (@win_width / PixelblastHelper.matrix_2d[0].size))
+      PixelblastHelper.new_matrix_2d_index[0] =
+        (Integer(mouse_y) - 200) / ((@win_height - 200) / PixelblastHelper.matrix_2d.size)
+
       PixelblastHelper.new_matrix_2d_index[1] =
-        (Integer(mouse_y - 200) / ((@win_height - 200) / PixelblastHelper.matrix_2d.size))
-      PixelblastHelper.solving_block_drawn = (true)
+        Integer(mouse_x) / (@win_width / PixelblastHelper.matrix_2d[0].size)
+      PixelblastHelper.solving_block_drawn = true
     end
     return unless @start_game == 1
 
@@ -128,7 +129,7 @@ class PixelblastWindow < Gosu::Window
       )
 
       Draw.matrix_2d(PixelblastHelper.matrix_2d, @block_color, @loader.background, @win_width, @win_height - 200)
-      Draw.next_block_set(@random_block_id, @win_width, @win_height - 200, PixelblastHelper.matrix_2d, @block_color)
+      Draw.next_block_set(@random_block_id, @win_width, @block_color)
 
       unless PixelblastHelper.try_block(@random_block_id, @timer, @loader).nil?
         @random_block_id = RandomGenerator.generate_unique_random(random_block_id, 8)
@@ -160,8 +161,6 @@ class PixelblastWindow < Gosu::Window
     else
       @stream.update
     end
-
-    # @glitch.update
 
     now = Gosu.milliseconds / 1000.0
     dt = now - @last_time

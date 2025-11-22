@@ -8,7 +8,7 @@ require_relative './timer'
 # PixelblastHelper provides helper methods for implementing game logic.
 # like checking the game loop.
 class PixelblastHelper
-  @@matrix_2d = Array.new(16) { Array.new(16) { 0 } }
+  @@matrix_2d = Array.new(32) { Array.new(32) { 0 } }
   @@solving_block_drawn = false
   @@new_matrix_2d_index = 0, 0
   @@score = 0
@@ -158,90 +158,90 @@ class PixelblastHelper
     when 0
       sub_2dmatrix = [[1, 1], [1, 1]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 1
       sub_2dmatrix = [[1, 1], [0, 0]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 2
       sub_2dmatrix = [[1, 0], [1, 0]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 3
       sub_2dmatrix = [[1, 1], [1, 0]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 4
       sub_2dmatrix = [[1, 1], [0, 1]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 5
       sub_2dmatrix = [[1, 0], [1, 1]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 6
       sub_2dmatrix = [[0, 1], [1, 1]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1] + 1,
-                               PixelblastHelper.new_matrix_2d_index[0] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0] + 1,
+                               PixelblastHelper.new_matrix_2d_index[1] + 1, 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
     when 7
       sub_2dmatrix = [[1]]
       if PixelblastHelper.block_fits_in(sub_2dmatrix)
-        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[1],
-                               PixelblastHelper.new_matrix_2d_index[0], 1)
+        Matrix2D.set_matrix_at(PixelblastHelper.matrix_2d, PixelblastHelper.new_matrix_2d_index[0],
+                               PixelblastHelper.new_matrix_2d_index[1], 1)
         after_successful_placment_procedure(timer, loader)
         true
       end
@@ -305,8 +305,8 @@ class PixelblastHelper
   def self.block_fits_in(sub_2dmatrix)
     block_fits_in_matrix = Matrix2D.find_2dmatrix_with_position(@@new_matrix_2d_index, sub_2dmatrix,
                                                                 @@matrix_2d)
-    col = @@new_matrix_2d_index[0]
-    row = @@new_matrix_2d_index[1]
+    row = @@new_matrix_2d_index[0]
+    col = @@new_matrix_2d_index[1]
     matrix_row_full_of_minus_ones = @@matrix_2d[row].all? { |val| val == -1 }
     matrix_col_full_of_minus_ones = @@matrix_2d.all? { |row| row[col] == -1 }
     block_fits_in_matrix && !matrix_row_full_of_minus_ones && !matrix_col_full_of_minus_ones

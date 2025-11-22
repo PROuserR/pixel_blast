@@ -96,7 +96,6 @@ end
 - Add **collision detection** (`Gosu.distance` is handy).
 - Experiment with **parallax backgrounds**.
 - Build **batch spawners** for enemies or particles.
-- Explore **pixel art shaders** or glitch effects for style.
 
 ---
 

@@ -145,14 +145,14 @@ module Draw
     end
   end
 
-  def block(x_coordinate, y_coordinate, width, height, color, solving_block = false)
+  def block(x_coordinate, y_coordinate, color, solving_block = false)
     screen_margin = 200
     if solving_block
-      rect(x_coordinate + 5, y_coordinate + 5, width - 10, height - 10, color)
-      rect_border(x_coordinate, y_coordinate, 400 / 16, 400 / 16, 2, color)
+      rect(x_coordinate + 5, y_coordinate + 5, 15, 15, color)
+      rect_border(x_coordinate, y_coordinate, 25, 25, 2, color)
     else
-      rect(x_coordinate + 5, y_coordinate + screen_margin + 5, width - 10, height - 10, color)
-      rect_border(x_coordinate, y_coordinate + screen_margin, 400 / 16, 400 / 16, 2, color)
+      rect(x_coordinate + 5, y_coordinate + screen_margin + 5, 15, 15, color)
+      rect_border(x_coordinate, y_coordinate + screen_margin, 25, 25, 2, color)
     end
   end
 
@@ -185,7 +185,7 @@ module Draw
       if row_full_of_minus_ones
         Draw.image_region(image,
                           0, row * (image.height / matrix_2d[0].size), image.width, image.height / matrix_2d[0].size,
-                          0, (win_height / matrix_2d[0].size * row) + 200, win_width, win_height / matrix_2d.size)
+                          0, (win_height / matrix_2d[0].size * row) + 200, win_width, win_height / matrix_2d[0].size)
       end
       matrix_2d[row].size.times do |col|
         col_full_of_minus_ones = matrix_2d.all? { |row| row[col] == -1 }
@@ -198,80 +198,72 @@ module Draw
         pos_value = matrix_2d[row][col]
         next unless pos_value == 1
 
-        Draw.block(col * (win_width / matrix_2d[0].size), row * (win_height / matrix_2d.size), win_width / matrix_2d[0].size,
-                   win_height / matrix_2d.size, color)
+        Draw.block(col * 25, row * 25, color)
       end
     end
   end
 
-  def self.next_block_set(block_id, win_width, win_height, matrix_2d, color)
+  def self.next_block_set(block_id, win_width, color)
     x_coordinate = win_width / 2 + 50
     y_coordinate = 120
     case block_id
     when 0
       # -> ##
       # -> ##
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate, y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size,  win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size,  win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
+      Draw.block(x_coordinate + 25, y_coordinate,
+                 color, true)
+      Draw.block(x_coordinate, y_coordinate + 25,
+                 color, true)
+      Draw.block(x_coordinate + 25, y_coordinate + 25,
+                 color, true)
     when 1
       # -> ##
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
+      Draw.block(x_coordinate + 25, y_coordinate,
+                 color, true)
     when 2
       # -> #
       # -> #
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate, y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size, win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
+      Draw.block(x_coordinate, y_coordinate + 25,
+                 color, true)
     when 3
       # -> ##
       # -> #
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate, y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size, win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
+      Draw.block(x_coordinate + 25, y_coordinate,
+                 color, true)
+      Draw.block(x_coordinate, y_coordinate + 25,
+                 color, true)
     when 4
       # -> ##
       # ->  #
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size, win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
+      Draw.block(x_coordinate + 25, y_coordinate,
+                 color, true)
+      Draw.block(x_coordinate + 25, y_coordinate + 25,
+                 color, true)
     when 5
       # -> #
       # -> ##
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate, y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size,  win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size,  win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
+      Draw.block(x_coordinate, y_coordinate + 25,
+                 color, true)
+      Draw.block(x_coordinate + 25, y_coordinate + 25,
+                 color, true)
     when 6
       # ->  #
       # -> ##
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate, y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size,  win_width / matrix_2d.size, color, true)
-      Draw.block(x_coordinate + (win_height / matrix_2d[0].size), y_coordinate + (win_width / matrix_2d.size),
-                 win_height / matrix_2d[0].size,  win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate + 25, y_coordinate,
+                 color, true)
+      Draw.block(x_coordinate, y_coordinate + 25,
+                 color, true)
+      Draw.block(x_coordinate + 25, y_coordinate + 25,
+                 color, true)
     when 7
       # -> #
-      Draw.block(x_coordinate, y_coordinate, win_height / matrix_2d[0].size,
-                 win_width / matrix_2d.size, color, true)
+      Draw.block(x_coordinate, y_coordinate, color, true)
     end
   end
 end

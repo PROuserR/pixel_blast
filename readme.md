@@ -1,4 +1,5 @@
-# 🎮 Mini Guide: Gosu Game Dev in Ruby
+# 🎮 Pixel Blast Game
+A game about placing blocks in their right order to reveal the full image over time.
 
 # Tech stack:
 - **Ruby**: Ruby is a general-purpose programming language. It was designed with an emphasis on programming productivity and simplicity. 

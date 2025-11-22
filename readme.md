@@ -4,6 +4,8 @@
 - **Ruby**: Ruby is a general-purpose programming language. It was designed with an emphasis on programming productivity and simplicity. 
 - **Gosu**: Gosu is a 2D game development library for Ruby and C++ that provides a lightweight engine with features for creating 2D games.
 
+## Intro 👋
+
 ## 1. Setup
 - Install Ruby (2.7+ recommended).
 - Install Gosu gem:
@@ -94,9 +96,11 @@ end
 - **Helpers**: Write parameterized methods for spawning, collisions, effects.
 - **Update/Draw Loop**: Keep logic in `update`, visuals in `draw`.
 
-## 8. Config
+⚡ **Pro tip for modularity**: Always expose parameters (speed, position, color, etc.) in your helpers so you can batch‑spawn and tweak without rewriting logic. That’s how you’ll scale from a toy demo to a flexible toolkit.
+
+## Note
 - **Images**: Put the full path to your own folder of images insead the stock imgaes
   Please note: the imgaes must be in 1:1 square ratio in order to function properly, otherwise the game is going to crash
----
 
-⚡ **Pro tip for modularity**: Always expose parameters (speed, position, color, etc.) in your helpers so you can batch‑spawn and tweak without rewriting logic. That’s how you’ll scale from a toy demo to a flexible toolkit.
+## Documentation
+I have generated a pdf file for code documentation, read it for more details.

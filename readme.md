@@ -90,17 +90,9 @@ end
 - **Helpers**: Write parameterized methods for spawning, collisions, effects.
 - **Update/Draw Loop**: Keep logic in `update`, visuals in `draw`.
 
----
-
-## 8. Next Steps
-- Add **collision detection** (`Gosu.distance` is handy).
-- Experiment with **parallax backgrounds**.
-- Build **batch spawners** for enemies or particles.
-
+## 8. Config
+- **Images**: Put the full path to your own folder of images insead the stock imgaes
+  Please note: the imgaes must be in 1:1 square ratio in order to function properly, otherwise the game is going to crash
 ---
 
 ⚡ **Pro tip for modularity**: Always expose parameters (speed, position, color, etc.) in your helpers so you can batch‑spawn and tweak without rewriting logic. That’s how you’ll scale from a toy demo to a flexible toolkit.
-
----
-
-Would you like me to expand this into a **step‑by‑step tutorial project** (like a simple “Asteroids” or “Matrix rain” clone), or keep it as a **reference cheat‑sheet** for modular helpers?

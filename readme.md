@@ -1,5 +1,9 @@
 # 🎮 Mini Guide: Gosu Game Dev in Ruby
 
+# Tech stack:
+- **Ruby**: Ruby is a general-purpose programming language. It was designed with an emphasis on programming productivity and simplicity. 
+- **Gosu**: Gosu is a 2D game development library for Ruby and C++ that provides a lightweight engine with features for creating 2D games.
+
 ## 1. Setup
 - Install Ruby (2.7+ recommended).
 - Install Gosu gem:
